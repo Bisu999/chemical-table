@@ -1,0 +1,59 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .toolbar {
+    display: flex;
+    justify-content: end;
+    margin-bottom: 20px;   
+
+  }
+  i + i {
+    padding-left: 1em;
+ } 
+ input[type="checkbox"] {
+  display: block;
+  margin: 0 auto;
+}
+tr.selected {
+  background-color: yellow;
+}
+
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .table thead th {
+    cursor: pointer;
+  }
+  
+  .table td,
+  .table th {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin-right: 8px;
+    cursor: pointer;
+    border: none;
+  }
+  .blue-color {
+    color:blue;
+}
+.smoke-color {
+    color:rgb(202, 193, 193);
+}
+.red-color {
+    color:red;
+}
+
+  

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chemical Table</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container">
+        <div class="toolbar">
+          <button id="add-row-btn"> <i  class="fa-solid fa-plus blue-color"></i></button>
+          <button id="move-up-btn"> <i  class="fa-solid fa-arrow-up blue-color"></i></button>
+          <button id="move-down-btn"><i  class="fa-solid fa-arrow-down smoke-color"></i></button>
+         <button id="delete-row-btn"><i   class="fa-sharp fa-solid fa-trash red-color"></i></button>
+          <button id="refresh-btn" onClick="window.location.reload()"> <i  class="fa-solid fa-rotate-right blue-color"></i></button>
+          <i  id="save-btn" class="fa-solid fa-floppy-disk blue-color"></i>
+        </div>
+        <table class="table chemical-table" id="chemical-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th onclick="sortTable(0)">ID</th>
+              <th onclick="sortTable(1)">Chemical Name</th>
+              <th onclick="sortTable(2)">Vendor</th>
+              <th onclick="sortTable(3)">Density</th>
+              <th onclick="sortTable(4)">Viscosity</th>
+              <th onclick="sortTable(5)">Packaging</th>
+              <th onclick="sortTable(6)">Pack Size</th>
+              <th onclick="sortTable(7)">Unit</th>
+              <th onclick="sortTable(8)">Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <td><input type="checkbox"></td>
+          </tbody>
+        </table>
+        
+      </div>
+      <script >// Define a sample JSON variable
+let chemicalData = {
+  "chemicalData": [
+  {
+      "id": 1,
+      "chemicalName": "Acetic acid",
+      "vender": "ABC Corporation",
+      "density": 1.05,
+      "viscosity": 1.22,
+      "packaging": "Drum",
+      "packSize": "200L",
+      "unit": "kg",
+      "quantity": 500
+    },
+    {
+      "id": 2,
+      "chemicalName": "Hydrochloric acid",
+      "vender": "XYZ Chemicals",
+      "density": 1.16,
+      "viscosity": 1.03,
+      "packaging": "IBC",
+      "packSize": "1000L",
+      "unit": "kg",
+      "quantity": 1000
+    }
+  ]
+};
+
+// Function to display the employees in the table
+function displayEmployees() {
+  let chemicalTable = document.getElementById("chemical-table");
+  let chemicalTableBody = chemicalTable.getElementsByTagName("tbody")[0];
+  chemicalTableBody.innerHTML = "";
+  
+  for (let i = 0; i < chemicalData.chemicalData.length; i++) {
+    let chemical = chemicalData.chemicalData[i];
+    let row = chemicalTableBody.insertRow();
+    const checkboxCell = document.createElement("td");
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkboxCell.appendChild(checkbox);
+  row.appendChild(checkboxCell);
+    row.insertCell().textContent = chemical.id;
+    row.insertCell().textContent = chemical.chemicalName;
+    row.insertCell().textContent = chemical.vender;
+    row.insertCell().textContent = chemical.density;
+    row.insertCell().textContent = chemical.viscosity;
+    row.insertCell().textContent = chemical.packaging;
+    row.insertCell().textContent = chemical.packSize;
+    row.insertCell().textContent = chemical.unit;
+    row.insertCell().textContent = chemical.quantity;
+    
+  }
+}
+displayEmployees();
+const addRowBtn = document.getElementById('add-row-btn');
+function addRow() {
+  const table = document.getElementById('chemical-table');
+  const newRow = table.insertRow(-1);
+  const newCell1 = newRow.insertCell(0);
+  const newCell2 = newRow.insertCell(1);
+  const newCell3 = newRow.insertCell(2);
+  const newCell4 = newRow.insertCell(3);
+  const newCell5 = newRow.insertCell(4);
+  const newCell6 = newRow.insertCell(5);
+  const newCell7 = newRow.insertCell(6);
+  const newCell8 = newRow.insertCell(7);
+  const newCell9 = newRow.insertCell(8);
+  const newCell10 = newRow.insertCell(9);
+  newCell1.innerHTML = '';
+  newCell2.innerHTML = '';
+  newCell3.innerHTML = '';
+  newCell4.innerHTML = '';
+  newCell5.innerHTML = '';
+  newCell6.innerHTML = '';
+  newCell7.innerHTML = '';
+  newCell8.innerHTML = '';
+  newCell9.innerHTML = '';
+  newCell10.innerHTML = '';
+}
+
+
+addRowBtn.addEventListener('click', function() {
+  // Function to add a row goes here
+  addRow();
+
+});
+const delectRowBtn = document.getElementById('delete-row-btn');
+function deleteSelected() {
+  const table = document.getElementById("chemical-table");
+  const checkboxes = table.getElementsByTagName("input");
+  for (let i = 0; i < checkboxes.length; i++) {
+    const checkbox = checkboxes[i];
+    if (checkbox.checked) {
+      const row = checkbox.closest("tr");
+      row.parentNode.removeChild(row);
+    }
+  }
+}
+delectRowBtn.addEventListener('click', function() {
+  // Function to add a row goes here
+  deleteSelected();
+
+});
+
+
+const rows = document.querySelectorAll("table tr");
+  rows.forEach(row => {
+    row.addEventListener("click", () => {
+      const checkbox = row.querySelector("input[type=checkbox]");
+      checkbox.checked = !checkbox.checked;
+      if (checkbox.checked) {
+    row.classList.add('selected');
+  } else {
+    row.classList.remove('selected');
+  }
+      
+    });
+  });
+  function moveRow(direction) {
+  // Get a reference to the table and the currently selected row
+  var table = document.getElementById("chemical-table");
+  var selectedRow = table.getElementsByClassName("selected")[0];
+
+  // If no row is selected, return
+  if (!selectedRow) {
+    return;
+  }
+
+  // Determine the new index for the selected row
+  var newIndex = selectedRow.rowIndex + direction;
+
+  // If the new index is out of bounds, return
+  if (newIndex < 0 || newIndex >= table.rows.length) {
+    return;
+  }
+
+  // Move the selected row to the new index
+  table.deleteRow(selectedRow.rowIndex);
+  table.insertRow(newIndex).outerHTML = selectedRow.outerHTML;
+
+  // Update the selected row
+  table.getElementsByClassName("selected")[0].classList.remove("selected");
+  table.rows[newIndex].classList.add("selected");
+}
+
+// Add event listeners to the Up and Down buttons
+document.getElementById("move-up-btn").addEventListener("click", function() {
+  moveRow(-1);
+});
+
+document.getElementById("move-down-btn").addEventListener("click", function() {
+  moveRow(1);
+});
+
+
+// const refreshButton = document.getElementById("refresh-btn");
+// const myTable = document.getElementById("chemical-table");
+
+// refreshButton.addEventListener("click", function() {
+//   myTable.location.reload();
+// });
+// const table = document.getElementById("chemical-table");
+
+// table.addEventListener("click", function(event) {
+//   const cell = event.target;
+//   const oldValue = cell.innerText;
+//   cell.innerText = "";
+//   //cell.style.backgroundColor = "white";
+// });
+function sortTable(colIndex) {
+  var table = document.getElementById("chemical-table");
+  var rows = table.rows;
+  var switching = true;
+  var ascending = true;
+  
+  while (switching) {
+    switching = false;
+    for (var i = 1; i < (rows.length - 1); i++) {
+      var shouldSwitch = false;
+      var x = rows[i].getElementsByTagName("td")[colIndex];
+      var y = rows[i + 1].getElementsByTagName("td")[colIndex];
+      if (ascending) {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          shouldSwitch = true;
+          break;
+        }
+      } else {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
+  }
+  ascending = !ascending;
+}
+
+
+ </script>
+    
+</body>
+</html>
